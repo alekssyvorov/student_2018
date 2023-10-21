@@ -1,34 +1,60 @@
+import random
+
+
 class Student:
     group = "C2018"
     subject = "Python"
-    count = 0
 
-    def __init__(self, age, height, name="Nick"):
+    def __init__(self, name):
         self.name = name
-        self.age = age
-        self.height = height
-        Student.count += 1
+        self.gladness = 50
+        self.progress = 0
+        self.alive = True
 
-    def printer(self):
-        print("my name is", self.name)
+    def to_study(self):
+        print("Time to study!")
+        self.progress += 0.1
+        self.gladness -= 3
 
-    def grow(self, height=1):
-        self.height += height
+    def to_sleep(self):
+        print("I will sleep")
+        self.gladness += 3
 
-    def __str__(self):
-        return f"I'm student. My name's {self.name}. My age is {self.age}"
+    def to_chill(self):
+        self.progress -= 0.1
+        self.gladness += 5
+
+    def end_of_day(self):
+        print(f"Gladness = {self.gladness}")
+        print(f"Progress = {self.progress}")
+
+    def live(self, day):
+        day = f"Day {day} of {self.name} life"
+        print(f"{day:=^50}")
+        live_cube = random.randint(1, 3)
+        if live_cube == 1:
+            self.to_study()
+        elif live_cube == 2:
+            self.to_sleep()
+        elif live_cube == 3:
+            self.to_chill()
+        self.end_of_day()
+        self.is_alive()
+
+    def is_alive(self):
+        if self.progress < -0.5:
+            print('Cast out....')
+            self.alive = False
+        elif self.gladness <= 0:
+            print("Depression!")
+            self.alive = False
+        elif self.progress > 5:
+            print('Passed externally...')
+            self.alive = False
 
 
-
-nick = Student(15, 165)
-kate = Student(16, 160, name="Kate")
-jane = Student(15, 170, "Jane")
-
-nick.grow()
-print(nick.height)
-kate.grow(10)
-print(kate.height)
-print(nick)
-
-print(2 + 5)
-
+nick = Student(name="Nick")
+for i in range(365):
+    if nick.alive == False:
+        break
+    nick.live(i)
